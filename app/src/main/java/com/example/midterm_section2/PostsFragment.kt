@@ -43,7 +43,7 @@ class PostsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 postViewModel.posts.collect { posts ->
-                    binding.rvPosts.adapter = PostsAdapter(posts)
+                    binding.rvPosts.adapter = PostHolder.PostsAdapter(posts)
                 }
             }
         }
