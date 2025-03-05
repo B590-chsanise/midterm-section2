@@ -45,7 +45,10 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
     implementation("com.google.firebase:firebase-analytics")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.1.0") // Update Kotlin
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.1.0")
+    implementation("androidx.credentials:credentials:1.2.0")
+    implementation("com.google.android.gms:play-services-auth:20.6.0")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.0.0")// Latest version
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
