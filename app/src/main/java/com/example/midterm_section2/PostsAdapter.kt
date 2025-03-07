@@ -8,7 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.midterm_section2.databinding.PostItemBinding
 import com.example.midterm_section2.model.Post
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.Date
+import com.example.midterm_section2.PhotoRepository
+import kotlin.math.log
+
 
 class PostHolder(private val binding: PostItemBinding)
     : RecyclerView.ViewHolder(binding.root) {
@@ -24,16 +30,31 @@ class PostHolder(private val binding: PostItemBinding)
             System.currentTimeMillis(),
             DateUtils.MINUTE_IN_MILLIS
         )
-        if (post.imageUrl != "") {
-            try {
-                binding.ivPost.load(post.imageUrl) {
-                    placeholder(R.drawable.flower)
+
+        if (post.imageUrl.isNotEmpty()) {
+            Log.d("PostHolder", "Fetching image from: ${post.imageUrl}")
+
+            CoroutineScope(Dispatchers.Main).launch {
+                try {
+                    val bitmap = PhotoRepository.get().fetchAndDecodeImage(post.imageUrl)
+
+                    if (bitmap != null) {
+                        binding.ivPost.setImageBitmap(bitmap)
+                    } else {
+                        Log.e("PostHolder", "Failed to decode image")
+                        binding.ivPost.setImageResource(R.drawable.flower) // Fallback
+                    }
+                } catch (e: Exception) {
+                    Log.e("PostHolder", "Image load failed: ${e.message}")
+                    binding.ivPost.setImageResource(R.drawable.flower) // Fallback
                 }
-            } catch (e: Exception) {
-                Log.e(TAG, e.message ?: "")
             }
+        } else {
+            Log.e("PostHolder", "Empty image URL, showing fallback image")
+            binding.ivPost.setImageResource(R.drawable.flower)
         }
     }
+
 
     class PostsAdapter(
         private val posts: List<Post>
