@@ -22,7 +22,7 @@ class PhotoRepository private constructor(
     private val coroutineScope: CoroutineScope = GlobalScope
 
     private val githubApi: GitHubApi
-    private val token = "Bearer <Add github classic code>"
+    private val token = "Bearer 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"
     private val owner = "B590-chsanise"
     private val repo = "midterm-section2-part3-photostore"
     private val branch = "main"
